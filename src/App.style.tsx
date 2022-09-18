@@ -25,6 +25,8 @@ padding: 20px;
 export const TextInput = styled.input`
 padding: 10px;
 margin: 20px auto;
+position: absolute;
+left:-100%;
 `;
 
 export const CardWrapper  = styled.div`
