@@ -1,21 +1,20 @@
 import { useEffect, useState, useRef } from "react";
-import Card, { ICardProps } from "./components/Card";
+import Card from "./components/Card";
 
-import { CardWrapper, Page, AppHeader, TextInput } from "./App.style";
+import { CardWrapper, Page, AppHeader, TextInput, Title } from "./App.style";
 import React from "react";
 
 type alphabetType = string[];
 
 function App() {
   const [text, setText] = useState("");
-  const [alphabet, setAlphabet] = useState([]);
+  const [alphabet, setAlphabet] = useState([] as alphabetType);
   const speechInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     speechInput.current?.focus();
     const alpha: number[] = Array.from(Array(26)).map((e, i) => i + 65);
-    const createdAlphabet: any = alpha.map((x) => String.fromCharCode(x))
-    setAlphabet(createdAlphabet);
+    setAlphabet(alpha.map((x) => String.fromCharCode(x)));
   }, []);
     
   const speechHandler = (tts: string) => {
@@ -35,7 +34,7 @@ function App() {
   return (
     <Page>
       <AppHeader>
-        <h1>React Text to Speech App</h1>
+        <Title>React Text to Speech App</Title>
         <TextInput
           ref={speechInput}
           type='text'
@@ -43,12 +42,13 @@ function App() {
           placeholder='Enter Text'
           onChange={(e) =>handleChange(e)}
           onKeyUp={(e) => (e.target as HTMLInputElement).select()}
+          maxLength={1}
+          onBlur={() => speechInput.current?.focus()}
         />
       </AppHeader>
       <CardWrapper>
         {alphabet.map((letter, idx) => (
-          console.log(letter),
-          <Card key={idx} letter={letter} active={letter === text} />
+          <Card key={idx} letter={letter} active={letter === text.toUpperCase()} />
         ))}
       </CardWrapper>
     </Page>
